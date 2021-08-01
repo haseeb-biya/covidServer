@@ -1,0 +1,97 @@
+<center>
+    <h1>Covid Slot tracking</h1>
+</center>
+<div class="container">
+    {{!-- <div style="display:hidden" id="hidden-Div">
+        <h1>Please wait while we are retrieving the New Data...</h1>
+    </div> --}}
+    <div id="refresh-Div">
+        {{#if data}}
+        <table style="width:100%;text-align:center;">
+            <tr>
+                <th>Name & address</th>
+                <th>Fee type</th>
+                <th>Sessions Data</th>
+            </tr>
+            {{#each data}}
+            <tr>
+                <td>
+                    <h4>{{name}},{{block_name}}</h4>
+                    <p>{{address}},{{pincode}}</p>
+                </td>
+                <td>{{fee_type}}</td>
+                {{#ifCond sessions.length '>' 1}}
+                <td>
+                    <table style="width: 100%;">
+                        <tr>
+                            <th>Date</th>
+                            <th>Age Limit</th>
+                            <th>available capacity</th>
+                            <th>Vaccine Name</th>
+                        </tr>
+                        <tr>
+                            {{#each sessions}}
+                            <td>{{this.date}}</td>
+                            <td>{{this.min_age_limit}}+</td>
+                            {{#ifCond this.available_capacity_dose1 '>=' 1}}
+                            <td style="background-color: green;color:white">{{this.available_capacity_dose1}}</td>
+                            {{else}}
+                            <td style="background-color: red;color:white">{{this.available_capacity_dose1}}</td>
+                            {{/ifCond}}
+                            <td>{{this.vaccine}}</td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                </td>
+                {{else}}
+                <td>
+                    <table style="width: 100%;">
+                        <tr>
+                            <th>Date</th>
+                            <th>Age Limit</th>
+                            <th>available capacity</th>
+                            <th>Vaccine Name</th>
+                        </tr>
+                        <tr>
+                            {{#each sessions}}
+                            <td>{{this.date}}</td>
+                            <td>{{this.min_age_limit}}+</td>
+                            {{#ifCond this.available_capacity_dose1 '>=' 1}}
+                            <td style="background-color: green;color:white">{{this.available_capacity_dose1}}</td>
+                            {{else}}
+                            <td style="background-color: red;color:white">{{this.available_capacity_dose1}}</td>
+                            {{/ifCond}}
+                            <td>{{this.vaccine}}</td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                </td>
+                {{/ifCond}}
+            </tr>
+            {{/each}}
+        </table>
+        {{#if isAvailable}}
+        <center>
+            <h2 style="background-color: green;color:#fff">Some slots are available</h2>
+        </center>
+        {{/if}}
+        <center>
+            <h2 id='changing_time'>Refreshing page in 15 seconds</h2>
+        </center>
+        {{/if}}
+    </div>
+</div>
+<script>
+    var count = 0;
+    setInterval(() => {
+        count++;
+        document.getElementById('changing_time')
+            .innerHTML = "Refreshing page in " + (15 - count) + " seconds";
+        if (count % 15 == 0) {
+            window.location.reload(true);
+            count = 0;
+        }
+
+    }, 1000);
+
+</script>
